@@ -30,13 +30,13 @@ class holtetalley():
         for zi in range(LP):
             LI = (MINDIFF==(pres[zi,...]-10.)**2)
             pres[:LP-zi,LI]=(pres[zi:,LI])
-            pres[LP-zi:,LI]=np.NaN
+            pres[LP-zi:,LI]=np.nan
             sal[:LP-zi,LI]=(sal[zi:,LI])
-            sal[LP-zi:,LI]=np.NaN
+            sal[LP-zi:,LI]=np.nan
             ptntl_rho[:LP-zi,LI]=(ptntl_rho[zi:,LI])
-            ptntl_rho[LP-zi:,LI]=np.NaN
+            ptntl_rho[LP-zi:,LI]=np.nan
             cnsrv_temp[:LP-zi,LI]=(cnsrv_temp[zi:,LI])
-            cnsrv_temp[LP-zi:,LI]=np.NaN
+            cnsrv_temp[LP-zi:,LI]=np.nan
             MINDIFF[LI]=0.0
 
         ##########################################################################

@@ -16,7 +16,7 @@ class energy():
                                    energy=1.0,#energy threshold (J/m2)
                                    threshold=1.e-5,#convergence threshold (nd)
                                    gradient=False,
-                                   mask_val=np.NaN
+                                   mask_val=np.nan
     ):
         """Computes the threshold mld with a fixed vertical coordinate"""
         num_coord = ptntl_rho_layer.shape[0]
@@ -40,12 +40,12 @@ class energy():
         
         mask = update_mask(ptntl_rho_layer[0,...],mask_val)
         active_mask = ~mask
-        mld = np.add(np.NaN,np.zeros(shape_profs));mld[active_mask]=0.0
-        delta_energy = np.add(np.NaN,np.zeros(shape_profs));delta_energy[active_mask]=0.0
-        pe_mixed = np.add(np.NaN,np.zeros(shape_profs));pe_mixed[active_mask]=0.0
-        pe_unmixed = np.add(np.NaN,np.zeros(shape_profs));pe_unmixed[active_mask]=0.0
-        dz_mixed = np.add(np.NaN,np.zeros(shape_profs));dz_mixed[active_mask]=0.0
-        iterations = np.add(np.NaN,np.zeros(shape_profs));iterations[active_mask]=0.0
+        mld = np.add(np.nan,np.zeros(shape_profs));mld[active_mask]=0.0
+        delta_energy = np.add(np.nan,np.zeros(shape_profs));delta_energy[active_mask]=0.0
+        pe_mixed = np.add(np.nan,np.zeros(shape_profs));pe_mixed[active_mask]=0.0
+        pe_unmixed = np.add(np.nan,np.zeros(shape_profs));pe_unmixed[active_mask]=0.0
+        dz_mixed = np.add(np.nan,np.zeros(shape_profs));dz_mixed[active_mask]=0.0
+        iterations = np.add(np.nan,np.zeros(shape_profs));iterations[active_mask]=0.0
 
         iz=0
         while(iz<num_coord and np.sum(active_mask)>0):

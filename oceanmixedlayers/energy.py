@@ -159,21 +159,21 @@ class mld_delta_pe():
         ACTIVE[np.isnan(T_i[0,...])|np.isnan(S_i[0,...])] = False
         FINISHED[np.isnan(T_i[0,...])|np.isnan(S_i[0,...])] = True
         
-        MLD_z                     = np.add(np.NaN,np.array(np.zeros(ND)))
+        MLD_z                     = np.add(np.nan,np.array(np.zeros(ND)))
         MLD_z[ACTIVE]             = 0.0
-        MLD_p                     = np.add(np.NaN,np.array(np.zeros(ND)))
+        MLD_p                     = np.add(np.nan,np.array(np.zeros(ND)))
         MLD_p[ACTIVE]             = 0.0
-        PE_x                = np.add(np.NaN,np.array(np.zeros(ND)))
+        PE_x                = np.add(np.nan,np.array(np.zeros(ND)))
         PE_x[ACTIVE]        = 0.0
-        PE_i               = np.add(np.NaN,np.array(np.zeros(ND)))
+        PE_i               = np.add(np.nan,np.array(np.zeros(ND)))
         PE_i[ACTIVE]       = 0.0
-        PE_i_above         = np.add(np.NaN,np.array(np.zeros(ND)))
+        PE_i_above         = np.add(np.nan,np.array(np.zeros(ND)))
         PE_i_above[ACTIVE] = 0.0
-        MLDp                = np.add(np.NaN,np.array(np.zeros(ND)))
+        MLDp                = np.add(np.nan,np.array(np.zeros(ND)))
         MLDp[ACTIVE]        = 0.0
-        MLDz                = np.add(np.NaN,np.array(np.zeros(ND)))
+        MLDz                = np.add(np.nan,np.array(np.zeros(ND)))
         MLDz[ACTIVE]        = 0.0
-        IT_total                = np.add(np.NaN,np.array(np.zeros(ND)))
+        IT_total                = np.add(np.nan,np.array(np.zeros(ND)))
         IT_total[ACTIVE]        = 0
         
         z=-1
@@ -382,17 +382,17 @@ class mld_pe_anomaly():
         ACTIVE[np.isnan(Rho0_layer[0,...])] = False
         FINISHED[np.isnan(Rho0_layer[0,...])] = True
         
-        MLD              = np.add(np.NaN,np.array(np.zeros(ND)))
+        MLD              = np.add(np.nan,np.array(np.zeros(ND)))
         MLD[ACTIVE]      = 0.0
-        PE_after              = np.add(np.NaN,np.array(np.zeros(ND)))
+        PE_after              = np.add(np.nan,np.array(np.zeros(ND)))
         PE_after[ACTIVE]      = 0.0
-        PE_before              = np.add(np.NaN,np.array(np.zeros(ND)))
+        PE_before              = np.add(np.nan,np.array(np.zeros(ND)))
         PE_before[ACTIVE]      = 0.0
-        PE_before_above              = np.add(np.NaN,np.array(np.zeros(ND)))
+        PE_before_above              = np.add(np.nan,np.array(np.zeros(ND)))
         PE_before_above[ACTIVE]      = 0.0
-        dz_Mixed              = np.add(np.NaN,np.array(np.zeros(ND)))
+        dz_Mixed              = np.add(np.nan,np.array(np.zeros(ND)))
         dz_Mixed[ACTIVE]      = 0.0
-        IT_total         = np.add(np.NaN,np.array(np.zeros(ND)))
+        IT_total         = np.add(np.nan,np.array(np.zeros(ND)))
         IT_total[ACTIVE] = 0
         
         z=-1

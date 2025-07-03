@@ -50,7 +50,7 @@ class pe_anomaly():
         Rho0_Mixed = np.copy(Rho0_layer)
         dz_Mixed = dZ[0]
         
-        PEdelta = np.zeros(ND)+np.NaN
+        PEdelta = np.zeros(ND)+np.nan
         
         ACTIVE = np.ones(ND,dtype='bool')
         ACTIVE[np.isnan(Rho0_layer[0,...])] = False

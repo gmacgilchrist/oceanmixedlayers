@@ -61,13 +61,13 @@ class mld_pe_anomaly():
         ACTIVE[np.isnan(Rho0_layer[0,...])] = False
         FINISHED[np.isnan(Rho0_layer[0,...])] = True
         
-        MLD              = np.add(np.NaN,np.array(np.zeros(ND)))
+        MLD              = np.add(np.nan,np.array(np.zeros(ND)))
         MLD[ACTIVE]      = 0.0
-        PE_after              = np.add(np.NaN,np.array(np.zeros(ND)))
+        PE_after              = np.add(np.nan,np.array(np.zeros(ND)))
         PE_after[ACTIVE]      = 0.0
-        PE_before              = np.add(np.NaN,np.array(np.zeros(ND)))
+        PE_before              = np.add(np.nan,np.array(np.zeros(ND)))
         PE_before[ACTIVE]      = 0.0
-        IT_total         = np.add(np.NaN,np.array(np.zeros(ND)))
+        IT_total         = np.add(np.nan,np.array(np.zeros(ND)))
         IT_total[ACTIVE] = 0
         
         z=-1

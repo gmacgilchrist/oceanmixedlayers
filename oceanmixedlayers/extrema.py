@@ -10,7 +10,7 @@ class extrema():
     def __init__(self):
         pass
 
-    def maxval_mld_fixedcoord(coordinate, value, mask_val=np.NaN):
+    def maxval_mld_fixedcoord(coordinate, value, mask_val=np.nan):
         """Computes the threshold mld with a fixed vertical coordinate"""
 
         if (coordinate.shape != value.shape):

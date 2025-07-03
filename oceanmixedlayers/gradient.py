@@ -10,7 +10,7 @@ class gradient():
         pass
 
         
-    def gradient_mld_fixedcoord(coordinate, value, critical_gradient, mask_val=np.NaN,smooth=True):
+    def gradient_mld_fixedcoord(coordinate, value, critical_gradient, mask_val=np.nan,smooth=True):
         """Computes the gradient mld with a fixed vertical coordinate"""
 
         if (coordinate.shape != value.shape):
@@ -84,7 +84,7 @@ class gradient():
             i_c+=1
         return mld, mldi
 
-    def max_gradient(coordinate, value, critical_gradient, mask_val=np.NaN,smooth=True):
+    def max_gradient(coordinate, value, critical_gradient, mask_val=np.nan,smooth=True):
         """Computes the gradient mld with a fixed vertical coordinate"""
 
         if (coordinate.shape != value.shape):
@@ -129,7 +129,7 @@ class gradient():
         return mld, mldi
 
 
-    def linearfit_mld_fixedcoord(coordinate, value, error_tolerance, mask_val=np.NaN,smooth=True):
+    def linearfit_mld_fixedcoord(coordinate, value, error_tolerance, mask_val=np.nan,smooth=True):
         """
         Computes the mld from fiting a linear slope to the thermocline and mixed layer 
         with a fixed vertical coordinate

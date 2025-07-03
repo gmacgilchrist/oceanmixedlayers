@@ -9,7 +9,7 @@ class threshold():
     def __init__(self):
         pass
 
-    def threshold_mld_fixedcoord(coordinate, value, delta=0.0, reference=0.0, mask_val=np.NaN, interp=True, interpsurf=True,absdiff=False):
+    def threshold_mld_fixedcoord(coordinate, value, delta=0.0, reference=0.0, mask_val=np.nan, interp=True, interpsurf=True,absdiff=False):
         """Computes the threshold mld with a fixed vertical coordinate"""
 
         if (coordinate.shape != value.shape):
