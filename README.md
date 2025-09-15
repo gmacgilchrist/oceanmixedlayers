@@ -39,3 +39,34 @@ python -m ipykernel install --user --name myenv --display-name "oceanmixedlayers
 Examples and short tests are given in notebook form in the tests folder.  Some examples require downloading the Argo profile database (see ftp://usgodae.org/pub/outgoing/argo/). Idealized profiles can be constructed for testing the interfaces as well, without need for obtaining external data.  
 
 The most useful example for usual implementation is probably in tests/Argo_Examples, which takes the Argo profiles and computes the gridded data for each of the algorithms included here.  
+
+## Heat Content Example
+
+Compute vertically integrated heat content (per unit area) down to a specified depth using Conservative Temperature. The calculation integrates `(CT - T_ref)` times a reference density and heat capacity with proper partial-cell handling.
+
+```
+import numpy as np
+from oceanmixedlayers import oceanmixedlayers
+
+# Define a simple column: 1 m layers to 300 m
+N = 300
+thck = np.ones(N)                # layer thickness [m]
+z_c = -(np.arange(N) + 0.5)      # layer centers [m], negative downward
+CT = np.ones(N) * 10.0           # Conservative Temperature [deg C]
+
+oml = oceanmixedlayers()
+
+# Heat content down to 200 m (negative downward)
+hc = oml.heat_content(z_c, thck, CT, depth=-200.0)
+
+# With a nonzero reference temperature (e.g., 2 deg C)
+hc_ref = oml.heat_content(z_c, thck, CT, depth=-200.0, T_ref=2.0)
+
+print("HC [J/m^2] =", hc)
+print("HC with T_ref [J/m^2] =", hc_ref)
+```
+
+Notes:
+- `depth` is negative downward (e.g., `-200.0` for 200 m).
+- Defaults: `rho_ref=1025.0 kg/m^3`, `cp_ref=3991.86795711963 J/(kg K)`, `T_ref=0.0 C`.
+- `z_c`, `thck`, and `CT` can be 1D or broadcastable ND arrays; NaNs are handled like the PE anomaly routines.

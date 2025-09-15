@@ -1,3 +1,4 @@
+import numpy as np
 from .threshold import threshold as _threshold
 from .gradient import gradient as _gradient
 from .holtetalley import holtetalley as _holtetalley
@@ -6,6 +7,7 @@ from .energy_Newton import mld_pe_anomaly as _mld_pe_anomaly_Newton
 from .energy import mld_delta_pe as _mld_delta_pe
 from .pe_anomaly import pe_anomaly as _pe_anomaly
 from .column import column as _column
+from .heat_content import heat_content as _heat_content
 
 class oceanmixedlayers:
     """
@@ -214,3 +216,44 @@ class oceanmixedlayers:
             ptntl_rho_layer, ptntl_rho_grad, z_c, thck, depth
         ).PE
         return pe
+
+    def heat_content(
+        z_c,
+        thck,
+        CT_layer,
+        depth=0.0,
+        rho_ref=1025.0,
+        cp_ref=3991.86795711963,
+        T_ref=0.0,
+    ):
+        """
+        Compute the heat content per unit area down to a specified depth.
+
+        Parameters
+        ----------
+        z_c: Layer center depths [m, negative downward].
+        thck: Layer thicknesses [m, positive].
+        CT_layer: Conservative Temperature averaged over each layer [deg C].
+        depth: Target depth [m, negative downward].
+        rho_ref: Reference density [kg/m^3].
+        cp_ref: Reference specific heat capacity [J/(kg K)].
+        T_ref: Reference temperature [deg C] for anomaly (default 0.0).
+
+        Returns
+        -------
+        hc: Heat content per unit area [J/m^2] integrated from 0 to depth.
+        """
+
+        if max(np.atleast_1d(depth).flatten()) > 0.0:
+            print("insert a negative value for depth")
+            asdf
+        hc = _heat_content(
+            CT_layer,
+            z_c,
+            thck,
+            depth,
+            rho_ref=rho_ref,
+            cp_ref=cp_ref,
+            T_ref=T_ref,
+        ).HC
+        return hc
