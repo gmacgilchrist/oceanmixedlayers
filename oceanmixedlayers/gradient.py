@@ -278,26 +278,49 @@ def grad(coordinate,value,smooth):
     else:
         return dv_dc
 
-def nd_linefit(coordinate,value):
+def nd_linefit(coordinate, value):
+    """Vectorised linear regression (least squares) along the first axis."""
 
-    val_mean = np.nanmean(value,axis=0)
-    val_std = np.nanstd(value,axis=0)
-    coor_mean = np.nanmean(coordinate,axis=0)
-    coor_std = np.nanstd(coordinate,axis=0)
+    coord = np.asarray(coordinate)
+    val = np.asarray(value)
 
-    nzero = (coor_std!=0)&(val_std!=0)
+    if coord.ndim == 1:
+        coord = coord[:, np.newaxis]
+    if val.ndim == 1:
+        val = val[:, np.newaxis]
 
-    covariance = np.zeros(np.shape(val_mean))
-    covariance[nzero] = np.nanmean((coordinate[:,nzero]-coor_mean[nzero])
-                                   *(value[:,nzero]-val_mean[nzero]),axis=0)
+    if coord.shape != val.shape:
+        raise ValueError("coordinate and value must share the same shape")
 
-    #This was computed but I don't think it is used so...
-    #correlation = np.zeros(np.shape(val_mean))
-    #correlation[nzero] = covariance[nzero]/(val_std[nzero]*coor_std[nzero])
+    # Identify finite entries; upstream masking uses NaNs so this mirrors
+    # the previous behaviour while being much cheaper than repeated nan* calls.
+    valid = np.isfinite(coord) & np.isfinite(val)
 
-    slope = np.zeros(np.shape(val_mean))
-    slope[nzero] = covariance[nzero]/(coor_std[nzero]**2)
+    counts = valid.sum(axis=0)
+    slope = np.zeros(coord.shape[1], dtype=np.result_type(coord, val, float))
+    intercept = np.zeros_like(slope)
 
-    intercept = val_mean - coor_mean*slope
+    cols = counts > 1
+    if not np.any(cols):
+        return slope.reshape(val.shape[1:]), intercept.reshape(val.shape[1:])
 
-    return slope, intercept
+    coord_valid = np.where(valid[:, cols], coord[:, cols], 0.0)
+    val_valid = np.where(valid[:, cols], val[:, cols], 0.0)
+
+    sum_x = coord_valid.sum(axis=0)
+    sum_y = val_valid.sum(axis=0)
+    sum_xy = (coord_valid * val_valid).sum(axis=0)
+    sum_x2 = (coord_valid * coord_valid).sum(axis=0)
+
+    cnt = counts[cols].astype(sum_x.dtype)
+    denom = cnt * sum_x2 - sum_x * sum_x
+
+    nonzero = denom != 0.0
+    slope_sub = np.zeros_like(sum_x)
+    slope_sub[nonzero] = ((cnt[nonzero] * sum_xy[nonzero]) - (sum_x[nonzero] * sum_y[nonzero])) / denom[nonzero]
+    intercept_sub = (sum_y - slope_sub * sum_x) / np.where(cnt == 0, 1.0, cnt)
+
+    slope[cols] = slope_sub
+    intercept[cols] = intercept_sub
+
+    return slope.reshape(val.shape[1:]), intercept.reshape(val.shape[1:])
