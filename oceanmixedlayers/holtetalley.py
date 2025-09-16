@@ -26,18 +26,36 @@ class holtetalley():
         LP = np.shape(pres)[0]
         LS = np.shape(pres)[1:]
 
-        MINDIFF = np.nanmin((pres-10.)**2,axis=0)
-        for zi in range(LP):
-            LI = (MINDIFF==(pres[zi,...]-10.)**2)
-            pres[:LP-zi,LI]=(pres[zi:,LI])
-            pres[LP-zi:,LI]=np.nan
-            sal[:LP-zi,LI]=(sal[zi:,LI])
-            sal[LP-zi:,LI]=np.nan
-            ptntl_rho[:LP-zi,LI]=(ptntl_rho[zi:,LI])
-            ptntl_rho[LP-zi:,LI]=np.nan
-            cnsrv_temp[:LP-zi,LI]=(cnsrv_temp[zi:,LI])
-            cnsrv_temp[LP-zi:,LI]=np.nan
-            MINDIFF[LI]=0.0
+        # Align each profile such that the measurement closest to 10 dbar is
+        # the first entry, mirroring the MATLAB logic but without the nested
+        # Python loop.
+        reshape_to = (LP, -1)
+        pres_r = pres.reshape(reshape_to)
+        sal_r = sal.reshape(reshape_to)
+        ptntl_rho_r = ptntl_rho.reshape(reshape_to)
+        cnsrv_temp_r = cnsrv_temp.reshape(reshape_to)
+
+        distance = np.abs(pres_r - 10.0)
+        valid = np.isfinite(distance)
+        # Use a large sentinel for invalid values so argmin favours real data.
+        distance = np.where(valid, distance, np.inf)
+        pivot_idx = distance.argmin(axis=0)
+        has_valid = np.isfinite(distance[pivot_idx, np.arange(distance.shape[1])])
+
+        rows = np.arange(LP)[:, None]
+        gather_idx = rows + pivot_idx
+        mask = (gather_idx < LP) & has_valid
+        gather_idx = np.clip(gather_idx, 0, LP - 1)
+
+        def _realign(arr_r):
+            aligned = np.take_along_axis(arr_r, gather_idx, axis=0)
+            aligned[~mask] = np.nan
+            return aligned
+
+        pres[:] = _realign(pres_r).reshape(pres.shape)
+        sal[:] = _realign(sal_r).reshape(sal.shape)
+        ptntl_rho[:] = _realign(ptntl_rho_r).reshape(ptntl_rho.shape)
+        cnsrv_temp[:] = _realign(cnsrv_temp_r).reshape(cnsrv_temp.shape)
 
         ##########################################################################
         # Calculate the MLD using a threshold method with de Boyer Montegut et al's
