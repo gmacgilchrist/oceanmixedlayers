@@ -8,6 +8,7 @@ from .energy import mld_delta_pe as _mld_delta_pe
 from .pe_anomaly import pe_anomaly as _pe_anomaly
 from .column import column as _column
 from .heat_content import heat_content as _heat_content
+from .mixed_layer_mean import mixed_layer_mean as _mixed_layer_mean
 
 class oceanmixedlayers:
     """
@@ -257,3 +258,36 @@ class oceanmixedlayers:
             T_ref=T_ref,
         ).HC
         return hc
+
+    def mixed_layer_mean(
+        z_c,
+        thck,
+        tracer_layer,
+        depth=0.0,
+    ):
+        """
+        Compute the thickness-weighted mixed layer mean of an arbitrary tracer.
+
+        Parameters
+        ----------
+        z_c: Layer center depths [m, negative downward].
+        thck: Layer thicknesses [m, positive].
+        tracer_layer: Tracer averaged over each layer.
+        depth: Target mixed layer depth [m, negative downward].
+
+        Returns
+        -------
+        mlm: Mixed layer mean tracer value integrated from 0 to depth.
+        """
+
+        if max(np.atleast_1d(depth).flatten()) > 0.0:
+            print("insert a negative value for depth")
+            asdf
+
+        mlm = _mixed_layer_mean(
+            tracer_layer,
+            z_c,
+            thck,
+            depth,
+        ).ML
+        return mlm
